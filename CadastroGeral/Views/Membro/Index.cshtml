@@ -1,0 +1,80 @@
+﻿@*@model List<MembroModel> //Usa para puxa a lista no LOOP.
+
+@{
+    ViewData["Title"] = "Lista de Membros";
+}
+
+<div class="text-center">
+ <!--Mensagem de sucesso-->
+@if(TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+        @TempData["MensagemSucesso"]
+    </div>
+ }
+  
+ <!--Mensagem de erro-->
+@if(TempData["MensagemErro"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+        @TempData["MensagemErro"]
+    </div>
+ }
+
+<br />
+
+<!--Título da lista-->
+<h1 class="display-4">Lista de Membros</h1>
+
+<!--Botão de inserir-->
+ <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+    <a class="btn btn-primary" role="button" asp-controller="Membro" asp-action="Criar">Adicionar Membro</a>
+ </div>
+ 
+ <br />
+
+<!--Cabeçalho da tabela-->
+<table class="table" id="table-membros">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Login</th>
+      <th scope="col">E-mail</th>
+      <th scope="col">Perfil</th>
+      <th scope="col">DataCadastro</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+
+<!--Puxar dados do banco dinamicamente com LOOP--> 
+@if (Model != null && Model.Any())
+{
+  foreach (MembroModel membro in Model)
+  {
+      <tr>
+          <th scope="row">@membro.Id</th>
+                <td>@membro.Nome</td>
+                <td>@membro.Login</td>
+                <td>@membro.Email</td>
+                <td>@(membro.Perfil == CadastroGeral.Enums.MembroEnum.Admin ? "Administrador":"Padrao")</td>
+                <td>@membro.DataCadastro</td>
+          <td>
+                <div class="btn-group" role="group">
+                    <a role="button" class="btn btn-primary" asp-route-id="@membro.Id" asp-controller="Membro" asp-action="Editar">Editar</a>
+                    <a role="button" class="btn btn-danger" asp-route-id="@membro.Id" asp-controller="Membro" asp-action="ApagarConfirmacao">Apagar</a>
+                </div>
+          </td>
+      </tr>
+  }
+}
+else
+    {
+        <tr class="odd"><td valign="top" colspan="5">Nenhum membro encontrado</td></tr>
+    }
+</tbody>
+</table>
+</div>*@

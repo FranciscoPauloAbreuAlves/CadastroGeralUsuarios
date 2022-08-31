@@ -1,0 +1,77 @@
+﻿@model List<ContatoModel> //Usa para puxa alista no LOOP.
+
+@{
+    ViewData["Title"] = "Lista de Contatos";
+}
+
+<div class="text-center">
+ <!--Mensagem de sucesso-->
+@if(TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+        @TempData["MensagemSucesso"]
+    </div>
+ }
+  
+ <!--Mensagem de erro-->
+@if(TempData["MensagemErro"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+        @TempData["MensagemErro"]
+    </div>
+ }
+
+<br />
+
+<!--Título da lista-->
+<h1 class="display-4">Lista de Contatos</h1>
+
+<!--Botão de inserir-->
+ <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+    <a class="btn btn-primary" role="button" asp-controller="Contato" asp-action="Criar">Adicionar Contato</a>
+ </div>
+ <br />
+
+ <!--Cabeçalho da tabela-->
+<table class="table" id="table-contatos">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nome</th>
+      <th scope="col">E-mail</th>
+      <th scope="col">Celular</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+
+<!--Puxar dados do banco dinamicamente com LOOP--> 
+@if (Model != null && Model.Any())
+{
+  foreach (ContatoModel contato in Model)
+  {
+      <tr>
+          <th scope="row">@contato.Id</th>
+                <td>@contato.Nome</td>
+                <td>@contato.Email</td>
+                <td>@contato.Celular</td>
+          <td>
+                <div class="btn-group" role="group">
+                    <a role="button" class="btn btn-primary" asp-route-id="@contato.Id" asp-controller="Contato" asp-action="Editar">Editar</a>
+                    <a role="button" class="btn btn-danger" asp-route-id="@contato.Id" asp-controller="Contato" asp-action="ApagarConfirmacao">Apagar</a>
+                </div>
+          </td>
+      </tr>
+       }
+    }
+    else
+            {
+                <tr class="odd"><td valign="top" colspan="5">Nenhum contato encontrado</td></tr>
+            }
+  </tbody>
+</table>
+</div>
+
+

@@ -1,0 +1,47 @@
+﻿@using CadastroGeral.Enums
+@model TarefaModel
+<!-- Vincular View com Model -->
+
+@{ViewData["Title"] = "Criar Tarefa";}
+
+<div class="text-center">
+    <h1 class="display-4">Cadastrar Tarefa</h1>
+</div>
+
+<form asp-controller="Tarefa" asp-action="Criar" method="post">
+
+<!--Id invisivel na tela-->
+<!--<input type="hidden" asp-for="Id" />-->
+
+  <div class="form-group">
+    <label asp-for="Tarefa">Tarefa</label>
+    <input type="text" asp-for="Tarefa" class="form-control" placeholder="Digite a tarefa!">
+    @Html.ValidationMessageFor(x => x.Tarefa)  
+</div>
+
+  <div class="form-group">
+    <label asp-for="Sistema">Sistema</label>
+    <input type="text" asp-for="Sistema" class="form-control" placeholder="Digite o sistema associado a tarefa!">
+    @Html.ValidationMessageFor(x => x.Sistema)    
+</div>
+
+<div class="form-group">
+    <label asp-for="Responsavel">Responsavel</label>
+    <input type="text" asp-for="Responsavel" class="form-control" placeholder="Digite o responsável pela tarefa!">
+    @Html.ValidationMessageFor(x => x.Responsavel)    
+</div>
+
+<div class="form-group">
+    <label asp-for="Situacao">Situacao</label>
+    <select asp-for="Situacao" class="form-control" placeholder="Digite a situação da tarefa!">  
+        <option value="0">Selecione</option>
+        <option value="@TarefaEnum.Concluida">Concluida</option>
+        <option value="@TarefaEnum.Pendente">Pendente</option>
+    </select>
+</div>
+
+<br />
+
+<button type="submit" class="btn btn-primary btn-block">Salvar</button>
+  <a class="btn btn-secondary btn-bl" asp-controller="Tarefa" asp-action="Index" role="button"> Voltar</a>
+</form>

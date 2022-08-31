@@ -1,0 +1,83 @@
+﻿@model List<TarefaModel> //Usa para puxa alista no LOOP.
+
+@{
+    ViewData["Title"] = "Lista de Tarefas";
+}
+
+<div class="text-center">
+ <!--Mensagem de sucesso-->
+@if(TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+        @TempData["MensagemSucesso"]
+    </div>
+ }
+  
+ <!--Mensagem de erro-->
+@if(TempData["MensagemErro"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+        @TempData["MensagemErro"]
+    </div>
+ }
+
+<br />
+
+<!--Cabeçalho da tabela-->
+<h1 class="display-4">Lista de Tarefas</h1>
+
+<!--Botão de inserir-->
+ <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+    <a class="btn btn-primary" role="button" asp-controller="Tarefa" asp-action="Criar">Adicionar Tarefa</a>
+ </div>
+
+ <br />
+
+<!--Cabeçalho da tabela-->
+<table class="table" id="table-tarefas">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Tarefa</th>
+      <th scope="col">Sistema associado</th>
+      <th scope="col">Responsável</th>
+      <th scope="col">Situação</th>
+      <th scope="col">Data de cadastro</th>
+      <th scope="col">Data de atualização</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+
+<!--Puxar dados do banco dinamicamente com LOOP--> 
+@if (Model != null && Model.Any())
+{
+  foreach (TarefaModel tarefa in Model)
+  {
+      <tr>
+          <th scope="row">@tarefa.Id</th>
+                <td>@tarefa.Tarefa</td>
+                <td>@tarefa.Sistema</td>
+                <td>@tarefa.Responsavel</td>
+                <td>@tarefa.Situacao</td>
+                <td>@tarefa.DataCadastro</td>
+          <td>
+                <div class="btn-group" role="group">
+                    <a role="button" class="btn btn-primary" asp-route-id="@tarefa.Id" asp-controller="Tarefa" asp-action="Editar">Editar</a>
+                    <a role="button" class="btn btn-danger" asp-route-id="@tarefa.Id" asp-controller="Tarefa" asp-action="ApagarConfirmacao">Apagar</a>
+                </div>
+          </td>
+      </tr>
+  }
+}
+else
+    {
+        <tr class="odd"><td valign="top" colspan="5">Nenhum tarefa encontrada</td></tr>
+    }
+</tbody>
+</table>
+</div>
+
+
