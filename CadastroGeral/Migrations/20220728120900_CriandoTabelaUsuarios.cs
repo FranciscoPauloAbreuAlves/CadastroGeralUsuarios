@@ -23,7 +23,7 @@ namespace CadastroGeral.Migrations
                     Senha = table.Column<UsuarioEnum>(type: "nvarchar(max)", nullable: false),
                     DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataAtualizacaoCadastro = table.Column<DateTime>(type: "datetime2", nullable: true)
-
+                    //UsuarioId = table.Column<int>(type: "int", nullable: false)
                 },
 
                 constraints: table =>

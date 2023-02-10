@@ -7,40 +7,34 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CadastroGeral.Controllers
 {
-    //Privilégios de acesso
     [PaginaUsuarioLogado] 
     //[PaginaMembroLogado]
 
-    //Declarar dependências de interfaces de banco de dados
-    public class ContatoController : Controller
+    public class ContatoController : Controller //Declarar dependências de interfaces de banco de dados => Inserir após relacionamento
     {
         private readonly IContatoRepositorio _contatoRepositorio;
         private readonly ISessaoUsuario _sessaoUsuario;
 
-        //Injetar dependências das interfaces
         public ContatoController(
-            IContatoRepositorio contatoRepositorio, 
-            ISessaoUsuario sessaoUsuario)
+           IContatoRepositorio contatoRepositorio, 
+           ISessaoUsuario sessaoUsuario)
         {
             _contatoRepositorio = contatoRepositorio;
             _sessaoUsuario = sessaoUsuario;
         }
 
-        //Recuperar usuário do banco de dados após relacionemto
-        public IActionResult Index()
+        public IActionResult Index() //Recuperar usuário do banco de dados após relacionemto
         {
             UsuarioModel usuarioLogado = _sessaoUsuario.BuscarSessaoUsuario();//Inserido após relacionamento
             List<ContatoModel> Contatos = _contatoRepositorio.BuscarTodos(usuarioLogado.Id);
             return View(Contatos);
         }
 
-        
         public IActionResult Criar()
         {
             return View();
         }
 
-        
         [HttpPost]
         public IActionResult Criar(ContatoModel contato)
         {
@@ -93,14 +87,12 @@ namespace CadastroGeral.Controllers
             }
         }
 
-        
         public IActionResult ApagarConfirmacao(int id)
         {
             ContatoModel contato = _contatoRepositorio.BuscarPorId(id);
             return View(contato);
         }
 
-        
         public IActionResult Apagar(int id)
         {
             try
