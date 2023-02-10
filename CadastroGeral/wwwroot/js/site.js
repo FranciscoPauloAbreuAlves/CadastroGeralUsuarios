@@ -19,8 +19,8 @@ $(document).ready(function (){
             url: '/Usuario/ListarConstatosPorUsuarioId/' + usuarioId,
             success: function (result) {
                 $('#listaContatosUsuario').html(result);
-                getDatatable("#table-contatos-usuario");
                 $('#modalContatosUsuario').modal();
+                getDatatable("#table-contatos-usuario");
             }
         });
     });
