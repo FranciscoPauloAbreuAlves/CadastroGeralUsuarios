@@ -1,6 +1,10 @@
-﻿@using CadastroGeral.Enums
+﻿<!-- 
+    1. Vincula View com Model 
+    2. Altera usuário
+-->
+
+@using CadastroGeral.Enums
 @model UsuarioModel
-<!-- Vincular View com Model -->
 
 @{ViewData["Title"] = "Editar Usuário";}
 
@@ -16,16 +20,15 @@
     <label asp-for="Nome">Nome</label>
     <input type="text" asp-for="Nome" class="form-control" placeholder="Digite o nome do usuário!">
     @Html.ValidationMessageFor(x => x.Nome)  
-
 </div>
 
-  <div class="form-group">
+<div class="form-group">
     <label asp-for="Email">E-mail</label>
     <input type="email" asp-for="Email" class="form-control" placeholder="Digite o e-mail do usuário!">
     @Html.ValidationMessageFor(x => x.Email)    
 </div>
 
-  <div class="form-group">
+<div class="form-group">
     <label asp-for="Login">Login</label>
     <input type="text" asp-for="Login" class="form-control" placeholder="Digite o login do usuário!">
     @Html.ValidationMessageFor(x => x.Login)    

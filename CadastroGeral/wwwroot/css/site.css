@@ -14,11 +14,10 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
-  background-color:dimgray;
-  color:#ffffff;
-  height:auto;
-  
+    margin-bottom: 60px;
+    background-color: #2556;
+    color: #1586;
+    height: auto;
 }
 
 
@@ -34,4 +33,11 @@ body {
     width:30px;
     height:31px;
     border-radius:2px;
+}
+
+.table-style {
+    background: #ffffff;
+    box-shadow: inset;
+    border-block: double;
+    padding: 2rem;
 }

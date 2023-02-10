@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CadastroGeral.Controllers
 {
-    //Privigérios de acesso
+    //Privilégios de acesso
     [PaginaUsuarioLogado] 
     //[PaginaMembroLogado]
 
@@ -30,31 +30,31 @@ namespace CadastroGeral.Controllers
         public IActionResult Index()
         {
             UsuarioModel usuarioLogado = _sessaoUsuario.BuscarSessaoUsuario();//Inserido após relacionamento
-            List<ContatoModel> ListaContatos = _contatoRepositorio.BuscarTodosContatosUsuarios(usuarioLogado.Id);
-            return View(ListaContatos);
+            List<ContatoModel> Contatos = _contatoRepositorio.BuscarTodos(usuarioLogado.Id);
+            return View(Contatos);
         }
 
-        //Método criar
+        
         public IActionResult Criar()
         {
             return View();
         }
 
-        //Método criar
+        
         [HttpPost]
-        public IActionResult Criar(ContatoModel criarContato)
+        public IActionResult Criar(ContatoModel contato)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     UsuarioModel usuarioLogado = _sessaoUsuario.BuscarSessaoUsuario();
-                    criarContato.UsuarioId = usuarioLogado.Id;
-                    criarContato = _contatoRepositorio.Adicionar(criarContato);
-                    TempData["MensagemSucesso"] = "Contato cadastrado com sucesso";
+                    contato.UsuarioId = usuarioLogado.Id;
+                    contato = _contatoRepositorio.Adicionar(contato);
+                    TempData["MensagemSucesso"] = "Contato cadastrado com sucesso!";
                     return RedirectToAction("Index");
                 }
-                return View(criarContato);
+                return View(contato);
             }
             catch (Exception erro)
             {
@@ -63,26 +63,28 @@ namespace CadastroGeral.Controllers
             }
         }
 
-        //Método editar
+        [HttpPost]
         public IActionResult Editar(int id)
         {
             ContatoModel editarContato = _contatoRepositorio.BuscarPorId(id);
             return View(editarContato);
         }
-
-        //Método alterar
+               
         [HttpPost]
-        public IActionResult Alterar(ContatoModel postarContato)
+        public IActionResult Alterar(ContatoModel contato)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _contatoRepositorio.Atualizar(postarContato);
+                    UsuarioModel usuarioLogado = _sessaoUsuario.BuscarSessaoUsuario();
+                    contato.UsuarioId = usuarioLogado.Id;
+
+                    contato = _contatoRepositorio.Atualizar(contato);
                     TempData["MensagemSucesso"] = "Contato alterado com sucesso";
                     return RedirectToAction("Index");
                 }
-                return View("Editar", postarContato);//Vai cair na view de editar, pois não tem view alterar.
+                return View("Editar", contato);//Vai cair na view de editar, pois não tem view alterar.
             }
             catch (Exception erro)
             {
@@ -91,14 +93,14 @@ namespace CadastroGeral.Controllers
             }
         }
 
-        //Método confirmar exclusão
+        
         public IActionResult ApagarConfirmacao(int id)
         {
             ContatoModel contato = _contatoRepositorio.BuscarPorId(id);
             return View(contato);
         }
 
-        //Método apagar
+        
         public IActionResult Apagar(int id)
         {
             try
@@ -107,7 +109,7 @@ namespace CadastroGeral.Controllers
 
                 if (apagado)
                 {
-                    TempData["MensagemSucesso"] = "Contato excluído com sucesso";
+                    TempData["MensagemSucesso"] = "Contato excluído com sucesso!";
                 }
                 else
                 {

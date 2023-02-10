@@ -28,7 +28,7 @@ namespace CadastroGeral.Controllers
         public IActionResult Index()
         {
             UsuarioModel usuarioLogado = _sessaoUsuario.BuscarSessaoUsuario();//Inserido após relacionamento
-            List<ContatoModel> ListaContatos = _contatoRepositorio.BuscarTodosContatosUsuarios(usuarioLogado.Id);
+            List<ContatoModel> ListaContatos = _contatoRepositorio.BuscarTodos(usuarioLogado.Id);
             return View(ListaContatos);
         }
 

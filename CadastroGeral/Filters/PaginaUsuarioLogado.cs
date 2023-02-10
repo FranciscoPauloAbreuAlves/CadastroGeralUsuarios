@@ -8,9 +8,10 @@ namespace CadastroGeral.Filters
 {
     public class PaginaUsuarioLogado : ActionFilterAttribute
     {
-        public override void OnResultExecuting(ResultExecutingContext context)
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
             string sessaoUsuario = context.HttpContext.Session.GetString("sessaoUsuarioLogado");
+            
             if(string.IsNullOrEmpty(sessaoUsuario))
             {
                 context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "login" }, { "action", "Index" } });
@@ -23,7 +24,7 @@ namespace CadastroGeral.Filters
                     context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "login" }, { "action", "Index" } });
                 }
             }
-            base.OnResultExecuting(context);
+            base.OnActionExecuting(context);
         }
     }
 }

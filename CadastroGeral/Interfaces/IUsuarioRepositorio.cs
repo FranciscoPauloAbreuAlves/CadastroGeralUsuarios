@@ -4,7 +4,7 @@ namespace CadastroGeral.Interfaces
 {
     public interface IUsuarioRepositorio
     {
-        List<UsuarioModel> BuscarTodosUsuarios();
+        List<UsuarioModel> BuscarTodos(int usuarioId);
         UsuarioModel BuscarPorLogin(string login);
         UsuarioModel BuscarPorEmailELogin(string email, string login);
         UsuarioModel BuscarPorId(int id);

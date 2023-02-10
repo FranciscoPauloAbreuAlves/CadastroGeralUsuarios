@@ -33,8 +33,9 @@ namespace CadastroGeral.Repositorio
         }
 
         //Buscar os usuários do banco de dados
-        public List<UsuarioModel> BuscarTodosUsuarios()
+        public List<UsuarioModel> BuscarTodos(int usuarioId)
         {
+            //return _bancoContext.Usuarios.Where(x => x.Id == usuarioId).ToList();
             return _bancoContext.Usuarios.ToList();
         }
 

@@ -5,8 +5,7 @@ namespace CadastroGeral.Interfaces
     public interface IContatoRepositorio
     {
         //Mudar após relacionamento (int usuarioId)
-        List<ContatoModel> BuscarTodosContatosUsuarios(int usuarioId);
-        //List<ContatoModel> BuscarTodosContatosMembros(int membroModelId);
+        List<ContatoModel> BuscarTodos(int usuarioId);
         ContatoModel BuscarPorId(int id);
         ContatoModel Adicionar(ContatoModel contato);
         ContatoModel Editar(ContatoModel contato);

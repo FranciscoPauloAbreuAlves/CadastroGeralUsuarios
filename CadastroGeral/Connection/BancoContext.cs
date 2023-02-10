@@ -25,14 +25,8 @@ namespace CadastroGeral.Connection
         //https://www.youtube.com/watch?v=GzbAUKz7EN4&list=PLJ0IKu7KZpCQKdwRbU7HfXW3raImmghWZ&index=15
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new TarefaMap());
+            modelBuilder.ApplyConfiguration(new ContatoMap());
             base.OnModelCreating(modelBuilder);
         }
-
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.ApplyConfiguration(new TarefaMap());
-        //    base.OnModelCreating(modelBuilder);
-        //}
     }
 }

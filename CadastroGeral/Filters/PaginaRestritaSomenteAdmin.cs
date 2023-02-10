@@ -33,28 +33,6 @@ namespace CadastroGeral.Filters
 
             base.OnActionExecuting(context);
 
-            //string sessaoMembro = context.HttpContext.Session.GetString("sessaoMembroLogado");
-
-            //if (string.IsNullOrEmpty(sessaoMembro))
-            //{
-            //    context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "login" }, { "action", "Index" } });
-            //}
-            //else
-            //{
-            //    MembroModel membro = JsonConvert.DeserializeObject<MembroModel>(sessaoMembro);
-
-            //    if (membro == null)
-            //    {
-            //        context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "login" }, { "action", "Index" } });
-            //    }
-
-            //    if (membro.Perfil != Enums.MembroEnum.Admin)
-            //    {
-            //        context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Restrito" }, { "action", "Index" } });
-            //    }
-            //}
-
-            //base.OnActionExecuting(context);
         }
     }
 }

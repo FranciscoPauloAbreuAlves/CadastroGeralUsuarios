@@ -32,8 +32,5 @@ namespace CadastroGeral.Models
         //Inserir após relacionamento
         public int? UsuarioId { get; set; }
         public UsuarioModel? Usuario { get; set; }
-
-        //public int? MembroId { get; set; }
-        //public MembroModel Membro { get; set; }
     }
 }

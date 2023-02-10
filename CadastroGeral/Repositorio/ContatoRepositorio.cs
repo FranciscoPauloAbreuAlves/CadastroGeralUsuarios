@@ -21,22 +21,14 @@ namespace CadastroGeral.Repositorio
             return _bancoContext.Contatos.FirstOrDefault(x => x.Id == id);
         }
 
-
-        //Buscar todos os contatos do banco de dados
-        //public List<ContatoModel> BuscarTodosContatosMembros(int membroModelId)  //Mudar após relacionamento
-        //{
-        //    //return _bancoContext.Contatos.ToList();
-        //    return _bancoContext.Contatos.Where(x => x.MembroModelId == membroModelId).ToList();
-        //}
-
         //Buscar todos os usuários do banco de dados
-        public List<ContatoModel> BuscarTodosContatosUsuarios(int usuarioId)
+        public List<ContatoModel> BuscarTodos(int usuarioId)
         {
             //return _bancoContext.Contatos.ToList();
             return _bancoContext.Contatos.Where(x => x.UsuarioId == usuarioId).ToList();
         }
 
-        //Gravar novo contatod no banco de dados
+        //Gravar novo contato no banco de dados
         public ContatoModel Adicionar(ContatoModel contato)
         {
             _bancoContext.Contatos.Add(contato);

@@ -1,10 +1,17 @@
 ﻿@model List<UsuarioModel>
 
 @{
-    ViewData["Title"] = "Lista de Usuarios";
+    ViewData["Title"] = "Listagem de Usuarios";
 }
 
 <div class="text-center">
+    <!--Botão de inserir-->
+<div class="d-grid gap-2 d-md-flex justify-content-md-start">
+  <a class="btn btn-primary" asp-controller="Usuario" asp-action="Criar" role="button">Adicionar Novo Usuario</a>
+</div>
+
+<br />
+
  <!--Mensagem de sucesso-->
 @if(TempData["MensagemSucesso"] != null)
 {
@@ -27,11 +34,6 @@
 
 <!--Título da lista-->
 <h1 class="display-4">Lista de Usuarios</h1>
-
-<!--Botão de inserir-->
- <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-    <a class="btn btn-primary" role="button" asp-controller="Usuario" asp-action="Criar">Adicionar Usuario</a>
- </div>
  
  <br />
 
@@ -46,7 +48,7 @@
       <th scope="col">Perfil</th>
       <th scope="col">DataCadastro</th>
       <th scope="col"></th>
-    </tr>
+      </tr>
   </thead>
   <tbody>
 

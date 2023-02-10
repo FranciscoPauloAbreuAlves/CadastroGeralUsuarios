@@ -1,6 +1,10 @@
-﻿@using CadastroGeral.Enums
+﻿<!--
+    1. Vincula View com Model
+    2. Cria usuário
+-->
+
+@using CadastroGeral.Enums
 @model UsuarioModel
-<!-- Vincular View com Model -->
 
 @{ViewData["Title"] = "Criar Usuario";}
 
@@ -9,27 +13,29 @@
 </div>
 
 <form asp-controller="Usuario" asp-action="Criar" method="post">
+    <!--Id invisivel na tela-->
+    <input type="hidden" asp-for="Id" />
 
 <div class="form-group">
-    <label asp-for="Nome">Nome</label>
+        <label asp-for="Nome" class="form-label">Nome</label>
     <input type="text" asp-for="Nome" class="form-control" placeholder="Digite o nome do usuário!">
     @Html.ValidationMessageFor(x => x.Nome)  
 </div>
 
 <div class="form-group">
-    <label asp-for="Email">E-mail</label>
+    <label asp-for="Email" class="form-label">E-mail</label>
     <input type="email" asp-for="Email" class="form-control" placeholder="Digite o e-mail do usuário!">
     @Html.ValidationMessageFor(x => x.Email)    
 </div>
 
 <div class="form-group">
-    <label asp-for="Login">Login</label>
+     <label asp-for="Login" class="form-label">Login</label>
     <input type="text" asp-for="Login" class="form-control" placeholder="Digite o login do usuário!">
     @Html.ValidationMessageFor(x => x.Login)    
 </div>
 
 <div class="form-group">
-    <label asp-for="Perfil">Perfil</label>
+    <label asp-for="Perfil" class="form-label">Perfil</label>
     <select asp-for="Perfil" class="form-control">
         <option value="">Selecione</option>
         <option value="@UsuarioEnum.Admin">Administrador</option>
@@ -39,13 +45,13 @@
 </div>
 
 <div class="form-group">
-    <label asp-for="Senha">Senha</label>
+    <label asp-for="Senha" class="form-label">Senha</label>
     <input type="password" asp-for="Senha" class="form-control" placeholder="Digite a senha do usuário!">
     @Html.ValidationMessageFor(x => x.Senha)    
 </div>
 
 <br />
 
-  <button type="submit" class="btn btn-primary btn-bl">Salvar</button>
-  <a class="btn btn-secondary btn-bl" asp-controller="Usuario" asp-action="Index" role="button"> Voltar</a>
- </form>
+<button type="submit" class="btn btn-primary btn-bl">Salvar</button>
+<a class="btn btn-secondary btn-bl" asp-controller="Usuario" asp-action="Index" role="button"> Voltar</a>
+</form>

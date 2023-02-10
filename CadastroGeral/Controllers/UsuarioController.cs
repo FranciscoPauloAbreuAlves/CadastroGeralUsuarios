@@ -1,6 +1,8 @@
 ﻿using CadastroGeral.Filters;
+using CadastroGeral.Helper;
 using CadastroGeral.Interfaces;
 using CadastroGeral.Models;
+using CadastroGeral.Repositorio;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CadastroGeral.Controllers
@@ -8,38 +10,71 @@ namespace CadastroGeral.Controllers
     [PaginaRestritaSomenteAdmin]
     public class UsuarioController : Controller
     {
+        //Declarar dependências de interfaces de banco de dados
         private readonly IUsuarioRepositorio _usuarioRepositorio;
-        public UsuarioController(IUsuarioRepositorio usuarioRepositorio)
+        private readonly ISessaoUsuario _sessaoUsuario;//Inserir após relacionamento
+
+        //private readonly IUsuarioRepositorio _usuarioRepositorio;
+        //public UsuarioController(IUsuarioRepositorio usuarioRepositorio)
+        //{
+        //    _usuarioRepositorio = usuarioRepositorio;
+        //}
+
+        public UsuarioController(
+           IUsuarioRepositorio usuarioRepositorio,
+           ISessaoUsuario sessaoUsuario)
         {
             _usuarioRepositorio = usuarioRepositorio;
+            _sessaoUsuario = sessaoUsuario;
         }
 
         public IActionResult Index()
         {
-            //Inserir os dados do banco na tabela:
-            List<UsuarioModel> ListaUsuarios = _usuarioRepositorio.BuscarTodosUsuarios();
-            return View(ListaUsuarios);
+            UsuarioModel usuarioLogado = _sessaoUsuario.BuscarSessaoUsuario();//Inserido após relacionamento
+            List<UsuarioModel> usuarios = _usuarioRepositorio.BuscarTodos(usuarioLogado.Id);
+            return View(usuarios);
         }
 
-        //Método criar
         public IActionResult Criar()
         {
             return View();
         }
 
-        //Método criar
+
+        //[HttpPost]
+        ////public IActionResult Criar(UsuarioModel Usuario)
+        ////{
+        ////    try
+        ////    {
+        ////        if (ModelState.IsValid)
+        ////        {
+        ////            Usuario = _usuarioRepositorio.Criar(Usuario);
+        ////            TempData["MensagemSucesso"] = "Usuário cadastrado com sucesso!";
+        ////            return RedirectToAction("Index");
+        ////        }
+        ////        return View(Usuario);
+        ////    }
+        ////    catch (Exception erro)
+        ////    {
+        ////        TempData["MensagemErro"] = $"Ops, o usuário não foi cadastrado! Detalhe do erro: {erro.Message}";
+        ////        return RedirectToAction("Index");
+        ////    }
+        ////}
+
         [HttpPost]
-        public IActionResult Criar(UsuarioModel criarUsuario)
+        public IActionResult Criar(UsuarioModel usuario)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    criarUsuario = _usuarioRepositorio.Adicionar(criarUsuario);
-                    TempData["MensagemSucesso"] = "Usuário cadastrado com sucesso!";
+                    UsuarioModel usuarioLogado = _sessaoUsuario.BuscarSessaoUsuario(); //Inserir após relacionamento
+                    usuario.Id = usuarioLogado.Id; //Inserir após relacionamento
+                    usuario = _usuarioRepositorio.Adicionar(usuario);
+                    TempData["MensagemSucesso"] = "Usuário cadastrado com sucesso";
                     return RedirectToAction("Index");
                 }
-                return View(criarUsuario);
+                return View(usuario);
             }
             catch (Exception erro)
             {
@@ -48,19 +83,21 @@ namespace CadastroGeral.Controllers
             }
         }
 
-        //Método alterar
+
+
+
         [HttpPost]
-        public IActionResult Alterar(UsuarioModel postarUsuario)
+        public IActionResult Alterar(UsuarioModel usuario)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _usuarioRepositorio.Atualizar(postarUsuario);
+                    _usuarioRepositorio.Atualizar(usuario);
                     TempData["MensagemSucesso"] = "Usuário alterado com sucesso";
                     return RedirectToAction("Index");
                 }
-                return View("Editar", postarUsuario);//Vai cair na view de editar, pois não tem view alterar.
+                return View("Editar", usuario);//Vai cair na view de editar, pois não tem view alterar.
             }
             catch (Exception erro)
             {
@@ -69,11 +106,11 @@ namespace CadastroGeral.Controllers
             }
         }
 
-        //Método editar
+        
         public IActionResult Editar(int id)
         {
-            UsuarioModel editarUsuario = _usuarioRepositorio.BuscarPorId(id);
-            return View(editarUsuario);
+            UsuarioModel usuario = _usuarioRepositorio.BuscarPorId(id);
+            return View(usuario);
         }
 
         [HttpPost]//Trocar por usuarioSemSenha depois
@@ -81,11 +118,11 @@ namespace CadastroGeral.Controllers
         {
             try
             {
-                UsuarioModel editarUsuarioSemSenha = null;
+                UsuarioModel usuarioSemSenha = null;
 
                 if (ModelState.IsValid)
                 {
-                    editarUsuarioSemSenha = new UsuarioModel()
+                    usuarioSemSenha = new UsuarioModel()
                     {
                         Id = usuarioSemSenhaModel.Id,
                         Nome = usuarioSemSenhaModel.Nome,
@@ -94,11 +131,11 @@ namespace CadastroGeral.Controllers
                         Perfil = usuarioSemSenhaModel.Perfil
                     };
 
-                    editarUsuarioSemSenha = _usuarioRepositorio.Atualizar(editarUsuarioSemSenha);
+                    usuarioSemSenha = _usuarioRepositorio.Atualizar(usuarioSemSenha);
                     TempData["MensagemSucesso"] = "Usuário alterado com sucesso";
                     return RedirectToAction("Index");
                 }
-                return View(editarUsuarioSemSenha);
+                return View(usuarioSemSenha);
             }
             catch (Exception erro)
             {
@@ -107,21 +144,21 @@ namespace CadastroGeral.Controllers
             }
         }
 
-        //Método confirmar exclusão
+       
         public IActionResult ApagarConfirmacao(int id)
         {
-            UsuarioModel usuario = _usuarioRepositorio.BuscarPorId(id);
-            return View(usuario);
+            UsuarioModel buscaUsuario = _usuarioRepositorio.BuscarPorId(id);
+            return View(buscaUsuario);
         }
 
-        //Método apagar
+        
         public IActionResult Apagar(int id)
         {
             try
             {
-                bool apagar = _usuarioRepositorio.Apagar(id);
+                bool apagaUsuario = _usuarioRepositorio.Apagar(id);
 
-                if (apagar)
+                if (apagaUsuario)
                 {
                     TempData["MensagemSucesso"] = "Usuario excluído com sucesso";
                 }

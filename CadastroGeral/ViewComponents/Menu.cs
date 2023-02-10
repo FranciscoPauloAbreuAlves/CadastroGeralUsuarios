@@ -14,14 +14,5 @@ namespace CadastroGeral.ViewComponents
             UsuarioModel usuario = JsonConvert.DeserializeObject<UsuarioModel>(sessaoUsuario);
             return View(usuario);
         }
-
-        //public async Task<IViewComponentResult> InvokeAsync()
-        //{
-        //    string sessaoMembro = HttpContext.Session.GetString("sessaoMembroLogado");
-
-        //    if (string.IsNullOrEmpty(sessaoMembro)) return null;
-        //    MembroModel membro = JsonConvert.DeserializeObject<MembroModel>(sessaoMembro);
-        //    return View(membro);
-        //}
     }
 }

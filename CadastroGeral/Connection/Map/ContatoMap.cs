@@ -10,9 +10,9 @@ namespace CadastroGeral.Data.Map
         public void Configure(EntityTypeBuilder<ContatoModel> builder)
         {
            builder.HasKey(x => x.Id);
+           builder.HasOne(x => x.Usuario);
            //builder.Property(x => x.Nome).HasMaxLength(100);
            //builder.HasOne(x => x.Membro);
-           builder.HasOne(x => x.Usuario);
         }
     }
 }
