@@ -2,14 +2,31 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-
+https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.js
 //Chamar datatable JQuery
 $(document).ready(function (){
     getDatatable('#table-contatos');
     getDatatable('#table-usuarios');
     getDatatable('#table-membros');
     getDatatable('#table-tarefas');
+
+    // Open modal in AJAX callback
+    $('.btn-total-contatos').click(function () {
+        var usuarioId = $(this).attr('usuario-id');
+
+        $.ajax({
+            type: 'GET',
+            url: '/Usuario/ListarConstatosPorUsuarioId/' + usuarioId,
+            success: function (result) {
+                $('#listaContatosUsuario').html(result);
+                getDatatable("#table-contatos-usuario");
+                $('#modalContatosUsuario').modal();
+            }
+        });
+    });
 });
+
+
 
 function getDatatable(id) {
     $(id).DataTable({

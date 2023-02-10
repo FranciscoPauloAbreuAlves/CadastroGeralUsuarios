@@ -8,25 +8,22 @@ using Microsoft.AspNetCore.Mvc;
 namespace CadastroGeral.Controllers
 {
     [PaginaRestritaSomenteAdmin]
-    [PaginaUsuarioLogado]
-
+    
     public class UsuarioController : Controller //Declarar dependências de interfaces de banco de dados => Inserir após relacionamento
     {
         private readonly IUsuarioRepositorio _usuarioRepositorio;
-        private readonly ISessaoUsuario _sessaoUsuario;
-
-        public UsuarioController(
-           IUsuarioRepositorio usuarioRepositorio,
-           ISessaoUsuario sessaoUsuario)
+        private readonly IContatoRepositorio _contatoRepositorio;
+     
+        public UsuarioController(IUsuarioRepositorio usuarioRepositorio,
+            IContatoRepositorio contatoRepositorio)
         {
             _usuarioRepositorio = usuarioRepositorio;
-            _sessaoUsuario = sessaoUsuario;
+            _contatoRepositorio = contatoRepositorio;
         }
 
         public IActionResult Index() //Recuperar usuário do banco de dados após relacionemto
         {
-            UsuarioModel usuarioLogado = _sessaoUsuario.BuscarSessaoUsuario();//Inserido após relacionamento
-            List<UsuarioModel> usuarios = _usuarioRepositorio.BuscarTodos(usuarioLogado.Id);
+            List<UsuarioModel> usuarios = _usuarioRepositorio.BuscarTodos();
             return View(usuarios);
         }
 
@@ -34,6 +31,14 @@ namespace CadastroGeral.Controllers
         {
             return View();
         }   
+
+
+        public IActionResult ListarConstatosPorUsuarioId (int id)
+        {
+            List<ContatoModel> contatos = _contatoRepositorio.BuscarTodos(id);
+            return PartialView("_ViewContatosUsuario", contatos);
+        }
+
 
         [HttpPost]
         public IActionResult Criar(UsuarioModel usuario)
@@ -44,6 +49,7 @@ namespace CadastroGeral.Controllers
                 {
                     //UsuarioModel usuarioLogado = _sessaoUsuario.BuscarSessaoUsuario(); //Inserir após relacionamento
                     //usuario.Id = usuarioLogado.Id; //Inserir após relacionamento
+
                     usuario = _usuarioRepositorio.Adicionar(usuario);
                     TempData["MensagemSucesso"] = "Usuário cadastrado com sucesso";
                     return RedirectToAction("Index");
@@ -64,8 +70,8 @@ namespace CadastroGeral.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    UsuarioModel usuarioLogado = _sessaoUsuario.BuscarSessaoUsuario();
-                    usuario.Id = usuarioLogado.Id;
+                    //UsuarioModel usuarioLogado = _sessaoUsuario.BuscarSessaoUsuario();
+                    //usuario.Id = usuarioLogado.Id;
 
                     usuario = _usuarioRepositorio.Atualizar(usuario);
                     TempData["MensagemSucesso"] = "Usuário alterado com sucesso";

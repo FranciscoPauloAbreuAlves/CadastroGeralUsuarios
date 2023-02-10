@@ -1,6 +1,7 @@
 ﻿using CadastroGeral.Connection;
 using CadastroGeral.Interfaces;
 using CadastroGeral.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CadastroGeral.Repositorio
 {
@@ -33,10 +34,12 @@ namespace CadastroGeral.Repositorio
         }
 
         //Buscar os usuários do banco de dados
-        public List<UsuarioModel> BuscarTodos(int usuarioId)
+        public List<UsuarioModel> BuscarTodos()
         {
             //return _bancoContext.Usuarios.Where(x => x.Id == usuarioId).ToList();
-            return _bancoContext.Usuarios.ToList();
+            return _bancoContext.Usuarios
+                .Include(x => x.Contatos)
+                .ToList();
         }
 
         //Método adicionar

@@ -33,6 +33,7 @@ namespace CadastroGeral.Models
         //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DataCadastro { get; set; }
         public DateTime? DataAtualizacaoCadastro { get; set; }
+        public virtual List<ContatoModel> Contatos { get; set; }
 
 
         //Validação da senha criptografada
@@ -61,12 +62,5 @@ namespace CadastroGeral.Models
         }
 
 
-        //Lista de relacionamento entre tabelas do banco dado
-        public virtual List<ContatoModel> Contatos { get; set; }
-        //public virtual List<UsuarioModel> Usuarios { get; set; } //(08.02.2023)                                                      
-        //public virtual List<TarefaModel> Tarefas { get; set; }
-
-        //public int? UsuarioId { get; set; }
-        //public UsuarioModel? Usuario { get; set; }
     }
 }
