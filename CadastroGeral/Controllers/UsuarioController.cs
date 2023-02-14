@@ -15,7 +15,7 @@ namespace CadastroGeral.Controllers
         private readonly IContatoRepositorio _contatoRepositorio;
      
         public UsuarioController(IUsuarioRepositorio usuarioRepositorio,
-            IContatoRepositorio contatoRepositorio)
+                                 IContatoRepositorio contatoRepositorio)
         {
             _usuarioRepositorio = usuarioRepositorio;
             _contatoRepositorio = contatoRepositorio;
@@ -38,12 +38,33 @@ namespace CadastroGeral.Controllers
             return View(usuario);
         }
 
+        public IActionResult ApagarConfirmacao(int id)
+        {
+            UsuarioModel usuario = _usuarioRepositorio.BuscarPorId(id);
+            return View(usuario);
+        }
+
+        public IActionResult Apagar(int id)
+        {
+            try
+            {
+                bool apagado = _usuarioRepositorio.Apagar(id);
+
+                if (apagado) TempData["MensagemSucesso"] = "Usuario excluído com sucesso"; else TempData["MensagemErro"] = "Ops! o usuário não foi excluído!";
+                return RedirectToAction("Index");
+            }
+            catch (Exception erro)
+            {
+                TempData["MensagemErro"] = $"Ops, o usuário não foi excluído! Detalhe do erro: {erro.Message}";
+                return RedirectToAction("Index");
+            }
+        }
+        
         public IActionResult ListarContatosPorUsuarioId (int id)
         {
             List<ContatoModel> contatos = _contatoRepositorio.BuscarTodos(id);
             return PartialView("_ViewContatosUsuario", contatos);
         }
-
 
         [HttpPost]
         public IActionResult Criar(UsuarioModel usuario)
@@ -54,7 +75,7 @@ namespace CadastroGeral.Controllers
                 {
                     usuario = _usuarioRepositorio.Adicionar(usuario);
                     
-                    TempData["MensagemSucesso"] = "Usuário cadastrado com sucesso";
+                    TempData["MensagemSucesso"] = "Usuário cadastrado com sucesso!";
                     return RedirectToAction("Index");
                 }
                 return View(usuario);
@@ -65,31 +86,7 @@ namespace CadastroGeral.Controllers
                 return RedirectToAction("Index");
             }
         }
-
-        [HttpPost]
-        public IActionResult Editar(UsuarioModel usuario)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    //UsuarioModel usuarioLogado = _sessaoUsuario.BuscarSessaoUsuario();
-                    //usuario.Id = usuarioLogado.Id;
-
-                    usuario = _usuarioRepositorio.Atualizar(usuario);
-                    TempData["MensagemSucesso"] = "Usuário alterado com sucesso";
-                    return RedirectToAction("Index");
-                }
-                return View("Editar", usuario);//Vai cair na view de editar, pois não tem view alterar.
-            }
-            catch (Exception erro)
-            {
-                TempData["MensagemErro"] = $"Ops, o usuário não foi alterado! Detalhe do erro: {erro.Message}";
-                return RedirectToAction("Index");
-            }
-        }
-
-        
+     
         [HttpPost]
         public IActionResult Editar(UsuarioSemSenhaModel usuarioSemSenhaModel)
         {
@@ -117,28 +114,6 @@ namespace CadastroGeral.Controllers
             catch (Exception erro)
             {
                 TempData["MensagemErro"] = $"Ops, o usuário não foi alterado! Detalhe do erro: {erro.Message}";
-                return RedirectToAction("Index");
-            }
-        }
-
-        public IActionResult ApagarConfirmacao(int id)
-        {
-            UsuarioModel usuario = _usuarioRepositorio.BuscarPorId(id);
-            return View(usuario);
-        }
-
-        public IActionResult Apagar(int id)
-        {
-            try
-            {
-                bool apagado = _usuarioRepositorio.Apagar(id);
-
-                if (apagado) TempData["MensagemSucesso"] = "Usuario excluído com sucesso"; else TempData["MensagemErro"] = "Ops! o usuário não foi excluído!"; 
-                return RedirectToAction("Index");
-            }
-            catch (Exception erro)
-            {
-                TempData["MensagemErro"] = $"Ops, o usuário não foi excluído! Detalhe do erro: {erro.Message}";
                 return RedirectToAction("Index");
             }
         }

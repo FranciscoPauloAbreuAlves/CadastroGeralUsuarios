@@ -7,7 +7,7 @@
     @if(TempData["MensagemSucesso"] != null)
     {
         <div class="alert alert-success" role="alert">
-            <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+                <button type="button" class="btn btn-light btn-sm close-alert" aria-label="Close">X</button>
             @TempData["MensagemSucesso"]
         </div>
      }
@@ -16,7 +16,7 @@
     @if(TempData["MensagemErro"] != null)
     {
         <div class="alert alert-danger" role="alert">
-            <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+                <button type="button" class="btn btn-light btn-sm close-alert" aria-label="Close">X</button>
             @TempData["MensagemErro"]
         </div>
      }
@@ -28,7 +28,7 @@
 
         <!--Botão de inserir-->
         <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-            <a class="btn btn-primary" role="button" asp-controller="Contato" asp-action="Criar">Adicionar Contato</a>
+            <a class="btn btn-light" role="button" asp-controller="Contato" asp-action="Criar">Adicionar Contato</a>
         </div>
         <br />
     </div>
@@ -58,8 +58,8 @@
                                 <td>@contato.Celular</td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a role="button" class="btn btn-primary" asp-route-id="@contato.Id" asp-controller="Contato" asp-action="Editar">Editar</a>
-                                        <a role="button" class="btn btn-danger" asp-route-id="@contato.Id" asp-controller="Contato" asp-action="ApagarConfirmacao">Apagar</a>
+                                    <a role="button" class="btn btn-light" asp-route-id="@contato.Id" asp-controller="Contato" asp-action="Editar">Editar</a>
+                                    <a role="button" class="btn btn-light" asp-route-id="@contato.Id" asp-controller="Contato" asp-action="ApagarConfirmacao">Apagar</a>
                                     </div>
                                 </td>
                             </tr>

@@ -21,8 +21,6 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IContatoRepositorio, ContatoRepositorio>();
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 builder.Services.AddScoped<ISessaoUsuario, SessaoUsuario>();
-//builder.Services.AddScoped<IMembroRepositorio, MembroRepositorio>();
-//builder.Services.AddScoped<ISessaoMembro, SessaoMembro>();
 builder.Services.AddScoped<ITarefaRepositorio, TarefaRepositorio>();
 builder.Services.AddScoped<IEmail, Email>();
 

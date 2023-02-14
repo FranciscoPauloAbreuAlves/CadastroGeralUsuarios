@@ -35,11 +35,8 @@ namespace CadastroGeral.Models
         public DateTime? DataAtualizacaoCadastro { get; set; }
         public virtual List<ContatoModel> Contatos { get; set; }
 
-
-        //Validação da senha criptografada
-        public bool SenhaValida(string senha)
+        public bool SenhaValida(string senha)//Validação da senha criptografada
         {
-            //return Senha == senha;//antes da criptografia
             return Senha == senha.GerarHash(); //adicionar após criptografia
         }
 
@@ -48,8 +45,7 @@ namespace CadastroGeral.Models
             Senha = Senha.GerarHash();
         }
 
-        //Trocar Nova senha
-        public void SetNovaSenha(string novaSenha)
+        public void SetNovaSenha(string novaSenha) //Trocar Nova senha
         {
             Senha = novaSenha.GerarHash();
         }

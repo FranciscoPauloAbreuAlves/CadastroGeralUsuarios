@@ -10,78 +10,41 @@ namespace CadastroGeral.Repositorio
     {
         private readonly BancoContext _bancoContext;
 
-        //Construtor de injeção do método context
-        public UsuarioRepositorio(BancoContext bancoContext)
+        public UsuarioRepositorio(BancoContext bancoContext) //Construtor de injeção do método context
         {
-            _bancoContext = bancoContext;
+            this._bancoContext = bancoContext;
         }
 
-        //Buscar por Login (copiei para Membrorepositório)
-        public UsuarioModel BuscarPorLogin(string login)
-        {
-            return _bancoContext.Usuarios.FirstOrDefault(x => x.Login.ToUpper() == login.ToUpper());
-        }
-
-        //Buscar por ID
         public UsuarioModel BuscarPorId(int id)
         {
             return _bancoContext.Usuarios.FirstOrDefault(x => x.Id == id);
         }
 
-        //Buscar por Email e Login
+        public List<UsuarioModel> BuscarTodos()
+        {
+            return _bancoContext.Usuarios.Include(x => x.Contatos).ToList();
+        }
+
+        public UsuarioModel BuscarPorLogin(string login)
+        {
+            return _bancoContext.Usuarios.FirstOrDefault(x => x.Login.ToUpper() == login.ToUpper());
+        }
+
         public UsuarioModel BuscarPorEmailELogin(string email, string login)
         {
             return _bancoContext.Usuarios.FirstOrDefault(x => x.Email.ToUpper() == email.ToUpper() && x.Login.ToUpper() == login.ToUpper());
         }
 
-        //Buscar os usuários do banco de dados
-        public List<UsuarioModel> BuscarTodos()
-        {
-            //return _bancoContext.Usuarios.Where(x => x.Id == usuarioId).ToList();
-            return _bancoContext.Usuarios
-                .Include(x => x.Contatos)
-                .ToList();
-        }
-
-        //Método adicionar
         public UsuarioModel Adicionar(UsuarioModel usuario)
         {
-            //Gravar no banco de dados a data cadastro
             usuario.DataCadastro = DateTime.Now;
             usuario.SetSenhaHash();
             _bancoContext.Usuarios.Add(usuario);
             _bancoContext.SaveChanges();
 
             return usuario;
-
-
-            //_bancoContext.Usuarios.Add(usuario);
-            //_bancoContext.SaveChanges();
-            //return usuario;
         }
 
-
-        //Método editar (verificar!!!)
-        [HttpPost]
-        public UsuarioModel Editar(UsuarioModel usuario)
-        {
-            UsuarioModel usuarioDB = BuscarPorId(usuario.Id);
-
-            if (usuarioDB == null) throw new System.Exception("Houve um erro na atualização do usuário!");
-            usuarioDB.Nome = usuario.Nome;
-            usuarioDB.Email = usuario.Email;
-            usuarioDB.Login = usuario.Login;
-            usuarioDB.Perfil = usuario.Perfil;
-            usuarioDB.DataAtualizacaoCadastro = DateTime.Now;
-
-            _bancoContext.Usuarios.Update(usuarioDB);
-            _bancoContext.SaveChanges();
-
-            return usuarioDB;
-        }
-
-        //Método atualizar
-        [HttpPost]
         public UsuarioModel Atualizar(UsuarioModel usuario)
         {
             UsuarioModel usuarioDB = BuscarPorId(usuario.Id);
@@ -99,7 +62,6 @@ namespace CadastroGeral.Repositorio
             return usuarioDB;
         }
 
-        //Método para trocar nova senha (Copiado para MembroRepositorio)
         public UsuarioModel AlterarSenha(AlterarSenhaModel alterarSenhaModel)
         {
             UsuarioModel usuarioDB = BuscarPorId (alterarSenhaModel.Id);
@@ -117,7 +79,6 @@ namespace CadastroGeral.Repositorio
             return usuarioDB;
         }
 
-        //Método apagar
         public bool Apagar(int id)
         {
             UsuarioModel usuarioDB = BuscarPorId(id);
@@ -127,7 +88,5 @@ namespace CadastroGeral.Repositorio
             _bancoContext.SaveChanges();
             return true;
         }
-
-       //Conteúdo entrará aqui!
     }
 }

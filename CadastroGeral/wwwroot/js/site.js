@@ -24,7 +24,7 @@ $(document).ready(function (){
             }
         });
     });
-});
+})
 
 
 
@@ -68,6 +68,6 @@ $(document).ready(function (id) {
 });
 
 //Evento click nos botões de mensagens(sucesso e erro):
-$('.close-alert').click(function () {
+$('.close-alert').click(function() {
     $('.alert').hide('hide');
 });
