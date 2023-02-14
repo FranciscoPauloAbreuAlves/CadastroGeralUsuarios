@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CadastroGeral.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    [Migration("20220831173145_3-CriandoVinculoUsuarioTarefa")]
-    partial class _3CriandoVinculoUsuarioTarefa
+    [Migration("20230214204001_RefazendoAsMigrations")]
+    partial class RefazendoAsMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -152,7 +152,7 @@ namespace CadastroGeral.Migrations
             modelBuilder.Entity("CadastroGeral.Models.TarefaModel", b =>
                 {
                     b.HasOne("CadastroGeral.Models.UsuarioModel", "Usuario")
-                        .WithMany("Tarefas")
+                        .WithMany()
                         .HasForeignKey("UsuarioId");
 
                     b.Navigation("Usuario");
@@ -161,8 +161,6 @@ namespace CadastroGeral.Migrations
             modelBuilder.Entity("CadastroGeral.Models.UsuarioModel", b =>
                 {
                     b.Navigation("Contatos");
-
-                    b.Navigation("Tarefas");
                 });
 #pragma warning restore 612, 618
         }

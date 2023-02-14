@@ -11,7 +11,7 @@ builder.Services.AddControllersWithViews(); // Add services to the container.
 //https://www.youtube.com/watch?v=zr3QiQDZ0-k
 builder.Services.AddDbContext<BancoContext>
     (options => options.UseSqlServer
-    (connectionString: @"Data Source=SRVDBDESENV;Initial Catalog=TestesFrancisco2;Integrated Security=True;"));
+    (connectionString: @"Data Source=SRVDBDESENV;Initial Catalog=TestesFrancisco3;Integrated Security=True;"));
 
 
 //Injetar dependências para sessão de usuário

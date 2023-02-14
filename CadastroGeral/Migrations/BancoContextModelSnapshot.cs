@@ -150,7 +150,7 @@ namespace CadastroGeral.Migrations
             modelBuilder.Entity("CadastroGeral.Models.TarefaModel", b =>
                 {
                     b.HasOne("CadastroGeral.Models.UsuarioModel", "Usuario")
-                        .WithMany("Tarefas")
+                        .WithMany()
                         .HasForeignKey("UsuarioId");
 
                     b.Navigation("Usuario");
@@ -159,8 +159,6 @@ namespace CadastroGeral.Migrations
             modelBuilder.Entity("CadastroGeral.Models.UsuarioModel", b =>
                 {
                     b.Navigation("Contatos");
-
-                    b.Navigation("Tarefas");
                 });
 #pragma warning restore 612, 618
         }
