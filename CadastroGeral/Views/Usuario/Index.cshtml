@@ -1,94 +1,91 @@
 ﻿@model List<UsuarioModel>
-https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.js
-@{
-    ViewData["Title"] = "Listagem de Usuarios";
-}
+@{ViewData["Title"] = "Listagem de Usuários";}
 
 <div class="text-center">
-    <!--Botão de inserir-->
-<div class="d-grid gap-2 d-md-flex justify-content-md-start">
-  <a class="btn btn-primary" asp-controller="Usuario" asp-action="Criar" role="button">Adicionar Novo Usuario</a>
-</div>
-
-<br />
-
- <!--Mensagem de sucesso-->
-@if(TempData["MensagemSucesso"] != null)
-{
-    <div class="alert alert-success" role="alert">
-        <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
-        @TempData["MensagemSucesso"]
-    </div>
- }
-  
- <!--Mensagem de erro-->
-@if(TempData["MensagemErro"] != null)
-{
-    <div class="alert alert-danger" role="alert">
-        <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
-        @TempData["MensagemErro"]
-    </div>
- }
-
- <br />
-
-<!--Título da lista-->
-<h1 class="display-4">Lista de Usuarios</h1>
- 
- <br />
-
- <!--Cabeçalho da tabela-->
-<table class="display" id="table-usuarios" style="width:100%">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Nome</th>
-      <th scope="col">Login</th>
-      <th scope="col">E-mail</th>
-      <th scope="col">Perfil</th>
-      <th scope="col">Total de Contatos</th>
-      <th scope="col">DataCadastro</th>
-      <th scope="col"></th>
-      </tr>
-  </thead>
-  <tbody>
-
-<!--Puxar dados do banco dinamicamente com LOOP--> 
-@if (Model != null && Model.Any())
-{
-  foreach (UsuarioModel usuario in Model)
-  {
-      <tr>
-          <th scope="row">@usuario.Id</th>
-                <td>@usuario.Nome</td>
-                <td>@usuario.Login</td>
-                <td>@usuario.Email</td>
-                <td>@(usuario.Perfil == CadastroGeral.Enums.UsuarioEnum.Admin? "Administrador":"Padrao")</td>
-                <td>
-                    <a href="javascript:" usuario-id="@usuario.Id" class="btn btn-success btn-sm btn-total-contatos">
-                    @(usuario.Contatos != null && usuario.Contatos.Any()? usuario.Contatos.Count():0)    
-                    </a>
-                </td>
-                <td>@usuario.DataCadastro</td>
-          <td>
-                <div class="btn-group" role="group">
-                    <a role="button" class="btn btn-primary" asp-route-id="@usuario.Id" asp-controller="Usuario" asp-action="Editar">Editar</a>
-                    <a role="button" class="btn btn-danger" asp-route-id="@usuario.Id" asp-controller="Usuario" asp-action="ApagarConfirmacao">Apagar</a>
-                </div>
-          </td>
-      </tr>
-  }
-}
-else
+    <div class="mensagem">
+         <!--Mensagem de sucesso-->
+    @if(TempData["MensagemSucesso"] != null)
     {
-         <tr class="odd"><td valign="top" colspan="5">Nenhum usuário encontrado</td></tr>
-    }
-  </tbody>
-</table>
+        <div class="alert alert-success" role="alert">
+            <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+            @TempData["MensagemSucesso"]
+        </div>
+     }
+  
+     <!--Mensagem de erro-->
+    @if(TempData["MensagemErro"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+            @TempData["MensagemErro"]
+        </div>
+     }
+   </div>
+    <br />
+    <div class="title">
+        <!--Título da lista-->
+        <h1 class="display-4">Lista de Usuarios</h1>
+        <br />
 
-<!--Modal-->
+        <!--Botão de inserir-->
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            <a class="btn btn-primary" asp-controller="Usuario" asp-action="Criar" role="button">Adicionar Novo Usuario</a>
+        </div>
+        <br />
+  </div>
+    <div class="table-style">
+        <!--Cabeçalho da tabela-->
+        <table class="display" id="table-usuarios" style="width:100%">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Login</th>
+                    <th scope="col">E-mail</th>
+                    <th scope="col">Perfil</th>
+                    <th scope="col">Total de Contatos</th>
+                    <th scope="col">DataCadastro</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <!--Puxar dados do banco dinamicamente com LOOP-->
+                @if (Model != null && Model.Any())
+                {
+                    foreach (UsuarioModel usuario in Model)
+                    {
+                        <tr>
+                            <th scope="row">@usuario.Id</th>
+                            <td>@usuario.Nome</td>
+                            <td>@usuario.Login</td>
+                            <td>@usuario.Email</td>
+                            <td>@(usuario.Perfil == CadastroGeral.Enums.UsuarioEnum.Admin ? "Administrador" : "Padrao")</td>
+                            <td>
+                                <a href="javascript:" usuario-id="@usuario.Id" class="btn btn-success btn-sm btn-total-contatos">
+                                    @(usuario.Contatos != null && usuario.Contatos.Any() ? usuario.Contatos.Count() : 0)
+                                </a>
+                            </td>
+                            <td>@usuario.DataCadastro</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a role="button" class="btn btn-primary" asp-route-id="@usuario.Id" asp-controller="Usuario" asp-action="Editar">Editar</a>
+                                    <a role="button" class="btn btn-danger" asp-route-id="@usuario.Id" asp-controller="Usuario" asp-action="ApagarConfirmacao">Apagar</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr class="odd"><td valign="top" colspan="5">Nenhum usuário encontrado</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!--Modal-->
     <div id="modalContatosUsuario" class="modal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
+       <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Listagem de Contatos</h5>
@@ -101,8 +98,8 @@ else
                     <div id="listaContatosUsuario"></div>
                 </div>
             </div>
-        </div>
-    </div>
+       </div>
+   </div>
 </div>
 
 

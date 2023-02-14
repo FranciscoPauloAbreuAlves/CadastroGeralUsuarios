@@ -1,6 +1,7 @@
 ﻿using CadastroGeral.Connection;
 using CadastroGeral.Interfaces;
 using CadastroGeral.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CadastroGeral.Repositorio
@@ -52,10 +53,16 @@ namespace CadastroGeral.Repositorio
             _bancoContext.SaveChanges();
 
             return usuario;
+
+
+            //_bancoContext.Usuarios.Add(usuario);
+            //_bancoContext.SaveChanges();
+            //return usuario;
         }
 
 
         //Método editar (verificar!!!)
+        [HttpPost]
         public UsuarioModel Editar(UsuarioModel usuario)
         {
             UsuarioModel usuarioDB = BuscarPorId(usuario.Id);
@@ -74,6 +81,7 @@ namespace CadastroGeral.Repositorio
         }
 
         //Método atualizar
+        [HttpPost]
         public UsuarioModel Atualizar(UsuarioModel usuario)
         {
             UsuarioModel usuarioDB = BuscarPorId(usuario.Id);

@@ -60,7 +60,5 @@ namespace CadastroGeral.Models
             Senha = novaSenha.GerarHash();
             return novaSenha;
         }
-
-
     }
 }

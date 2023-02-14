@@ -8,16 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace CadastroGeral.Controllers
 {
     [PaginaUsuarioLogado] 
-    //[PaginaMembroLogado]
-
-    public class ContatoController : Controller //Declarar dependências de interfaces de banco de dados => Inserir após relacionamento
+    
+    public class ContatoController : Controller //Declarar dependências de interfaces de banco de dados
     {
         private readonly IContatoRepositorio _contatoRepositorio;
         private readonly ISessaoUsuario _sessaoUsuario;
 
-        public ContatoController(
-           IContatoRepositorio contatoRepositorio, 
-           ISessaoUsuario sessaoUsuario)
+        public ContatoController(IContatoRepositorio contatoRepositorio, ISessaoUsuario sessaoUsuario)
         {
             _contatoRepositorio = contatoRepositorio;
             _sessaoUsuario = sessaoUsuario;
@@ -44,6 +41,7 @@ namespace CadastroGeral.Controllers
                 {
                     UsuarioModel usuarioLogado = _sessaoUsuario.BuscarSessaoUsuario();
                     contato.UsuarioId = usuarioLogado.Id;
+
                     contato = _contatoRepositorio.Adicionar(contato);
                     TempData["MensagemSucesso"] = "Contato cadastrado com sucesso!";
                     return RedirectToAction("Index");
@@ -56,15 +54,13 @@ namespace CadastroGeral.Controllers
                 return RedirectToAction("Index");
             }
         }
-
-        [HttpPost]
+               
         public IActionResult Editar(int id)
         {
             ContatoModel editarContato = _contatoRepositorio.BuscarPorId(id);
             return View(editarContato);
         }
                
-        [HttpPost]
         public IActionResult Alterar(ContatoModel contato)
         {
             try
@@ -78,7 +74,7 @@ namespace CadastroGeral.Controllers
                     TempData["MensagemSucesso"] = "Contato alterado com sucesso";
                     return RedirectToAction("Index");
                 }
-                return View("Editar", contato);//Vai cair na view de editar, pois não tem view alterar.
+                return View("Editar", contato); //Cai na view de editar, pois não tem view alterar.
             }
             catch (Exception erro)
             {

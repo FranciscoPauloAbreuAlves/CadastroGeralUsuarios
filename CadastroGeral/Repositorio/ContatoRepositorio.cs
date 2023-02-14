@@ -24,7 +24,6 @@ namespace CadastroGeral.Repositorio
         //Buscar todos os usuários do banco de dados
         public List<ContatoModel> BuscarTodos(int usuarioId)
         {
-            //return _bancoContext.Contatos.ToList();
             return _bancoContext.Contatos.Where(x => x.UsuarioId == usuarioId).ToList();
         }
 
@@ -52,7 +51,6 @@ namespace CadastroGeral.Repositorio
             return contatoDB;
         }
 
-        //Atualizar contato no banco de dados
         [HttpPost]
         public ContatoModel Atualizar(ContatoModel contato)
         {
@@ -68,7 +66,6 @@ namespace CadastroGeral.Repositorio
             return contatoDB;
         }
 
-        //Alterar contato no banco de dados
         [HttpPost]
         public ContatoModel Alterar(ContatoModel contato)
         {
@@ -84,7 +81,6 @@ namespace CadastroGeral.Repositorio
             return contatoDB;
         }
 
-        //Apagar contato do banco de dados
         public bool Apagar(int id)
         {
             ContatoModel contatoDB = BuscarPorId(id);

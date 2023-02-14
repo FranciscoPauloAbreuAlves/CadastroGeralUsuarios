@@ -4,43 +4,35 @@ using CadastroGeral.Interfaces;
 using CadastroGeral.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Principal;
 
 namespace CadastroGeral.Controllers
 {
-    //Privigérios de acesso
     [PaginaUsuarioLogado]
-    //[PaginaMembroLogado]
-
-    //Declarar dependências de interfaces de banco de dados
-    public class TarefaController : Controller
+    
+    public class TarefaController : Controller //Declarar dependências de interfaces de banco de dados
     {
         private readonly ITarefaRepositorio _tarefaRepositorio;
         private readonly ISessaoUsuario _sessaoUsuario;
 
-        //Injetar dependências das interfaces
-        public TarefaController(
-            ITarefaRepositorio tarefaRepositorio, 
-            ISessaoUsuario sessaoUsuario)
+        public TarefaController(ITarefaRepositorio tarefaRepositorio, ISessaoUsuario sessaoUsuario)
         {
             _tarefaRepositorio = tarefaRepositorio;
             _sessaoUsuario = sessaoUsuario;
         }
 
-        //Recuperar usuário do banco de dados após relacionemto
-        public IActionResult Index()
+        public IActionResult Index() //Recuperar usuário do banco de dados após relacionemto
         {
             UsuarioModel usuarioLogado = _sessaoUsuario.BuscarSessaoUsuario();//Inserido após relacionamento
             List<TarefaModel> ListaTarefas = _tarefaRepositorio.BuscarTodasTarefas(usuarioLogado.Id);
             return View(ListaTarefas);
         }
 
-        //Método criar
         public IActionResult Criar()
         {
             return View();
         }
 
-        //Método criar
         [HttpPost]
         public IActionResult Criar(TarefaModel criarTarefa)
         {
@@ -64,54 +56,26 @@ namespace CadastroGeral.Controllers
             }  
         }
 
-        //Método Editar
         public IActionResult Editar(int id)
         {
             TarefaModel tarefa = _tarefaRepositorio.ListarPorId(id);
             return View(tarefa);
         }
-
-        //Método editar após relacionamento
-        [HttpPost]
-        public IActionResult Editar(TarefaModel editarTarefa)
+      
+        public IActionResult Alterar(TarefaModel alterarTarefa)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     UsuarioModel usuarioLogado = _sessaoUsuario.BuscarSessaoUsuario();
-                    editarTarefa.UsuarioId = usuarioLogado.Id;
+                    alterarTarefa.UsuarioId = usuarioLogado.Id;
 
-                    editarTarefa = _tarefaRepositorio.Atualizar(editarTarefa);
+                    alterarTarefa = _tarefaRepositorio.Atualizar(alterarTarefa);
                     TempData["MensageSucesso"] = "Tarefa alterada com sucesso";
                     return RedirectToAction("Index");
                 }
-                return View(editarTarefa);
-            }
-            catch (Exception erro)
-            {
-                TempData["MensagemErro"] = $"Ops, a tarefa não foi alterada! Detalhe do erro: {erro.Message}";
-                return RedirectToAction("Index");
-            }
-        }
-       
-        //Método editar após relacionamento
-        [HttpPost]
-        public IActionResult Alterar(TarefaModel postarTarefa)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    UsuarioModel usuarioLogado = _sessaoUsuario.BuscarSessaoUsuario();
-                    postarTarefa.UsuarioId = usuarioLogado.Id;
-
-                    postarTarefa = _tarefaRepositorio.Atualizar(postarTarefa);
-                    TempData["MensageSucesso"] = "Tarefa alterada com sucesso";
-                    return RedirectToAction("Index");
-                }
-                return View("Editar", postarTarefa);
-                //return View(postarTarefa);
+                return View("Editar", alterarTarefa); //Cai na view de editar, pois não tem view alterar.
             }
             catch (Exception erro)
             {
@@ -120,15 +84,12 @@ namespace CadastroGeral.Controllers
             }
         }
 
-
-        //Método confirmar exclusão
         public IActionResult ApagarConfirmacao(int id)
         {
             TarefaModel tarefa = _tarefaRepositorio.ListarPorId(id);
             return View(tarefa);
         }
 
-        //Método apagar
         public IActionResult Apagar(int id)
         {
             try
